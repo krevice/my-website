@@ -4,11 +4,14 @@ on:
     branches:
       - main #here we choose to deploy only when a push is detected on the main branch
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    
     steps:
-    - uses: actions/checkout@v1
-    - name: Configure AWS Credentials
+    - name: checkout code
+      uses: actions/checkout@v2
+      
+    - name: login to AWS
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -20,5 +23,7 @@ jobs:
     #  run: yarn install && npm run-script build
     
     - name: Deploy static site to S3 bucket
-      run: aws s3 sync . s3://thisiskevinstest.com --delete 
+      uses: aws-actions/amazon-s3-sync-action@v1
+      with:
+        args: --delete --exclude ".git/*" . s3://thisiskevinstest.com 
       # --delete flag will remove any file in the s3 that are not on the "thefoldertodeploy" folder
