@@ -10,20 +10,20 @@ jobs:
     steps:
     - name: checkout code
       uses: actions/checkout@v2
-      
-    - name: login to AWS
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-west-1 # Use your bucket region here
+    - name: Setup AWS CLI
+      run: |
+        apt-get update
+        apt-get install -y python3-pip
+        pip3 install awscli
+    - name: Configure AWS Credentials
+      run: aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+      run: aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: aws configure set default.region us-west-1
         
     # Here you could add some building steps if you were dealing with some angular/react/Vue...
     # - name: Build static site
     #  run: yarn install && npm run-script build
     
     - name: Deploy static site to S3 bucket
-      uses: aws-actions/amazon-s3-sync-action@v1
-      with:
-        args: --delete --exclude ".git/*" . s3://thisiskevinstest.com 
+      run: aws s3 sync . s3://thisiskevinstest.com --delte --exclude ".git/*" 
       # --delete flag will remove any file in the s3 that are not on the "thefoldertodeploy" folder
