@@ -11,8 +11,7 @@ jobs:
     - name: Create Build Directory
       run: mkdir build
     - name: Copy Files to Build Directory
-      run: rsync -av --exclude=".git" --exclude=".github" --exclude="build" . build/
-      run: rm -rf build/.git build/.github
+      run: rsync -av --exclude=".git" --exclude=".github" . build/
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -25,5 +24,5 @@ jobs:
     #  run: yarn install && npm run-script build
     
     - name: Deploy static site to S3 bucket
-      run: aws s3 sync . s3://thisiskevinstest.com --delete --exclude "build/*" 
+      run: aws s3 sync build/ s3://thisiskevinstest.com --delete 
       # --delete flag will remove any file in the s3 that are not on the "thefoldertodeploy" folder
