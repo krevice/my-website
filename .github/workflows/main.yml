@@ -11,7 +11,7 @@ jobs:
     - name: Create Build Directory
       run: mkdir build
     - name: Copy Files to Build Directory
-      run: rsync -av --exclude=".git/" --exclude=".github/" . build/
+      run: find . -not -path "*/.git/*" -not -path "*/.github/*" -not -path "*/build/*" -exec cp -r {} build/ \;
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
