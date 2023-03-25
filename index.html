@@ -16,7 +16,7 @@
       })
       .then((data) => {
         // Update the page with the visitor count from DynamoDB
-        document.getElementById("visit_count").innerHTML = data;
+        document.getElementById("visit_count").innerHTML = visit_count;
       })
       .catch(function (error) {
         // Handle any errors that occur during the request
