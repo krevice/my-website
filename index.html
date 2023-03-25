@@ -9,23 +9,22 @@
 
 
 <script>
-const api_url =
-  "https://7recfysdwe.execute-api.us-west-1.amazonaws.com/dev";
-fetch(api_url)
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    // Update the page with the visitor count from DynamoDB
-    document.getElementById("read-more").innerHTML = data;
-  })
-  .catch(function (error) {
-    // Handle any errors that occur during the request
-    console.log(error);
-  });
+    api_url = "https://7recfysdwe.execute-api.us-west-1.amazonaws.com/dev";
+    fetch(api_url)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        // Update the page with the visitor count from DynamoDB
+        document.getElementById("visit_count").innerHTML = data;
+      })
+      .catch(function (error) {
+        // Handle any errors that occur during the request
+        console.log(error);
+      });
   </script>
 
-<p>Visitor count: <span id="read-more"></span></p>
+<p>Visitor count: <span id="visit_count"></span></p>
 
 </body>
 </html>
