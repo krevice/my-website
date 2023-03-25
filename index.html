@@ -6,59 +6,24 @@
 <body>
 <h1>Site Test</h1>
 <div>This is a site test</div>
-<p>Visitor count: <span id="visitor_count"></span></p>
+<p>Visitor count: <span id="read-more"></span></p>
 
 <script>
-      // Get a reference to the <span> element where the visitor count will be displayed
-      const countEl = document.getElementById('visitor_count');
-
-      // Make a GET request to the Lambda function API endpoint
-      fetch('https://7recfysdwe.execute-api.us-west-1.amazonaws.com/dev')
-        // When the response is received, parse the JSON data
-        .then(response => response.json())
-        // When the data is parsed, extract the visitor count and display it in the <span> element
-        .then(data => {
-          const count = data.count; // Extract the visitor count from the data
-          countEl.innerHTML = count; // Set the innerHTML of the <span> element to the visitor count
-        })
-        // If there is an error, log it to the console
-        .catch(error => {
-          console.error(error);
-        });
-
-      // Define a function to increment the visitor count
-      function incrementVisitorCount() {
-        // Create an AWS.DynamoDB.DocumentClient object
-        const dynamo = new AWS.DynamoDB.DocumentClient();
-
-        // Define the parameters for the DynamoDB update operation
-        const params = {
-          TableName: 'visitor_count',
-          Key: {
-            'id': 'total_visitors'
-          },
-          UpdateExpression: 'ADD #count :incr',
-          ExpressionAttributeNames: {
-            '#count': 'count'
-          },
-          ExpressionAttributeValues: {
-            ':incr': 1
-          },
-          ReturnValues: 'UPDATED_NEW'
-        };
-
-        // Call the DynamoDB update operation
-        dynamo.update(params, (error, result) => {
-          if (error) {
-            console.error(error);
-          } else {
-            // Display the updated visitor count in the <span> element
-            const count = result.Attributes.count;
-            countEl.innerHTML = count;
-          }
-        });
-      }
-    </script>
+const api_url =
+  "https://7recfysdwe.execute-api.us-west-1.amazonaws.com/dev";
+fetch(api_url)
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    // Update the page with the visitor count from DynamoDB
+    document.getElementById("read-more").innerHTML = data;
+  })
+  .catch(function (error) {
+    // Handle any errors that occur during the request
+    console.log(error);
+  });
+  </script>
 
 
 </body>
