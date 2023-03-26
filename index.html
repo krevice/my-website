@@ -1,32 +1,20 @@
 <!DOCTYPE html>
 <html>
-<title>Site Test</title>
-<head>
-</head>
-<body>
-<h1>Site Test</h1>
-<div>This is a site test</div>
+  <body>
+    <p id="response"></p>
 
-
-<script>
-    api_url = "https://7recfysdwe.execute-api.us-west-1.amazonaws.com/dev";
-    fetch(api_url)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-	  // Extract number value from response body
-		const countValue = parseInt(data.body);
-        // Update the page with the visitor count from DynamoDB
-        document.getElementById("visit_count").innerHTML = countValue;
-      })
-      .catch(function (error) {
-        // Handle any errors that occur during the request
-        console.log(error);
-      });
-  </script>
-
-<p>Visitor count: <span id="visit_count"></span></p>
-
-</body>
+    <script>
+      // Make a request to your API here
+      const apiUrl = 'https://7recfysdwe.execute-api.us-west-1.amazonaws.com/dev
+';
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          // Capture the response data and display it in an HTML element
+          const responseEl = document.getElementById('response');
+          responseEl.innerHTML = data.completed;
+        })
+        .catch(error => console.error(error));
+    </script>
+  </body>
 </html>
