@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <p id="response"></p>
+    <p> The visitor count is: <span id="response"></span </p>
 
     <script>
       // Make a request to your API here
-      const apiUrl = 'https://7recfysdwe.execute-api.us-west-1.amazonaws.com/dev
-';
+      const apiUrl = 'https://7recfysdwe.execute-api.us-west-1.amazonaws.com/dev';
       fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
           // Capture the response data and display it in an HTML element
           const responseEl = document.getElementById('response');
-          responseEl.innerHTML = data.completed;
+          responseEl.innerHTML = data.body;
         })
         .catch(error => console.error(error));
     </script>
